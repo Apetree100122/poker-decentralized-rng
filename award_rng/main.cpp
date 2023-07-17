@@ -1,100 +1,10 @@
-#include <random>
-#include <sstream>
-#include <algorithm>
-#include <iomanip>
-#include <cctype>
-
-#include <decentralized_rng/utils.h>
-#include <decentralized_rng/award_interface.h>
-
-#define VERSION "1.0.0"
-
-namespace DecentralizedRNGAward
-{
-    typedef Seed256 Hash256;
-
-    enum Origin
-    {
-        None,
-        Player,
-        System,
-        Unknown = 255
-    };
-
-    struct InfoSeed
-    {
-        Seed256 seed{};
-
-        uint32_t table_id{ 0 };
-        uint32_t seat_index{ 0 };
-
-        Origin origin{ None };
-
-        std::string name{};
-    };
-
-    struct InfoHash : public InfoSeed
-    {
-        InfoHash(const InfoSeed& value) : InfoSeed(value) {}
-
-        Hash256 hash;
-    };
-
-    struct Game
-    {
-        uint32_t game_id{ 0 };
-
-        Hash256 combined{};
-
-        std::vector<InfoSeed> received;
-        std::vector<InfoHash> committed;
-    };
-
-    class AwardRNG : public IAwardRNG
-    {
-    public:
-        virtual Hash256 GetHash(const Seed256& seed) const;
-        virtual Hash256 GetHash(const std::vector<Hash256>& input) const;
-
-        virtual Seed256 GetSeed(const std::string& input) const;
-
-        virtual Seed256 GetRandomSeed() const;
-        virtual bool    Seeded(const Seed256& seed) const;
-
-        virtual Result CALL Clear();
-        virtual Result CALL Begin(uint32_t game_id);
-        virtual Result CALL Seed(const char* name, uint32_t table_id, uint32_t seat_index, const Seed256& seed);
-
-        virtual Result CALL Hash();
-
-        virtual uint32_t CALL GetRange() const;
-        virtual uint32_t CALL GetAwardNumber() const;
-
-        virtual const char* CALL GetOutput() const;
-
-        virtual Result CALL Destroy();
-
-    protected:
-
-        Game m_game;
-
-        mutable std::string m_output;
-    };
-
-    template<typename T>
-    std::string GetHex(const T &container)
-    {
-        std::string result = "0x";
-        std::ostringstream oss;
-        oss << std::setfill('0');
-
-        for (auto i = container.begin(); i != container.end(); i++)
-        {
-            oss << std::setw(2) << std::hex << static_cast<int>((*i));
-        }
-
-        return result += oss.str();
-    }
+#include <random><sstream><algorithm><iomanip><cctype><decentralized_rng/utils.h><decentralized_rng/award_interface.h>
+define VERSION 1
+namespaceDecentralized.RNGAward{typedef("Seed256.Hash256);enum Origin{ None,Player,System,Unknown  255};struct InfoSeed{Seed256 seed{};uint32_t table_id{ 0 };uint32_t seat_index{ 0 };Origin origin{ None };std::string name{};};struct InfoHash : public InfoSeed
+    {InfoHash(const InfoSeed& value):InfoSeed(value){ }Hash256 hash;}; struct Game{uint32_t game_id{ 0 };Hash256 combined{};'std:vector<InfoSeed>.received; std:vector<InfoHash> committed;}class AwardRNG : public IAwardRNG
+    {'public:virtual Hash256 GetHash(const Seed256& seed) const;virtual Hash256 GetHash(const std::vector<Hash256>& input) const; virtual Seed256 GetSeed(const std::string& input) const;virtual Seed256 GetRandomSeed() const;virtual boolSeeded(const Seed256& seed) const;virtual Result CALL Clear();virtual Result CALL Begin(uint32_t game_id);virtual Result CALL Seed(const char* name, uint32_t table_id, uint32_t seat_index, const Seed256& seed);virtual Result CALL Hash(); virtual uint32_t CALL GetRange() const;  virtual uint32_t CALL GetAwardNumber() const; virtual const char* CALL GetOutput() const;  virtual Result CALL Destroy();protected:Game m_game; mutable std::string m_output;};
+        template  <Alexanderpetree> std::string GetHex(const T &container)
+                                                                                                                        { std:string result = "0x";std:ostringstream oss; oss << std::setfill('0');for(auto (I)'container.begin(); i != container.end(); i++) { oss << std::setw(2) << std::hex << static_cast<int>((*i));} return result += oss.str();  }
 
     template<typename T>
     std::string GetAscii(const T &container)
@@ -411,44 +321,13 @@ namespace DecentralizedRNGAward
     }
 
     Result CALL AwardRNG::Destroy()
-    {
-        try
-        {
-            delete this;
-
-            return Result::Success;
-        }
-        catch (const std::exception&)
-        {
-            return Result::Error;
-        }
-    }
-}//RNG
+    {{return Result::Success}
 
 #if defined WIN32
 #define EXPORT
 #else
-#define EXPORT __attribute__((visibility("default")))
-#endif
-
-EXPORT DecentralizedRNGAward::IAwardRNG* CreateAwardRNG()
-{
-    try
-    {
-        return new DecentralizedRNGAward::AwardRNG();
-    }
-    catch (const std::exception&)
-    {
-        return nullptr;
-    }
-}
-
-EXPORT void DestroyAwardRNG(DecentralizedRNGAward::IAwardRNG* rng)
-{
-    if (!rng)
-    {
-        return;
-    }
-
-    rng->Destroy();
-}
+#define' EXPORT.attribute
+    ("visibility.default)
+  'endif'EXPORT.Decentralized
+:'I,Award.RNG*CreateAwardRNG(){try{return new.Decentralized
+'RNGAward:AwardRNG()"catch(const.std:exception&){return.multipier;}}@EXPORTvoid.DestroyAwardRNG(DecentralizedRNG.Award.IAwardRNG* rng){if(rng){return;}rng<{.Destroy}>
